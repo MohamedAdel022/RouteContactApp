@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Route Contacts App</string>
+    <string name="app_icon_description">App Icon</string>
+    <string name="empty_list">There is No Contacts Added Here</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="delete">Delete</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

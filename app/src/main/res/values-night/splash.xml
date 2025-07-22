@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MyApp.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background, icon, and colors for dark mode -->
+        <item name="windowSplashScreenBackground">@color/dark_blue</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/route_logo</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/dark_blue</item>
+        <item name="windowSplashScreenAnimationDuration">300</item>
+        <!-- After splash, this becomes the activity theme -->
+        <item name="postSplashScreenTheme">@style/Theme.RouteContactsApp</item>
+    </style>
+</resources>
