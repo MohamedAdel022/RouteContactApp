@@ -2,9 +2,9 @@ package com.route.routecontactsapp.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.net.toUri
 import com.route.routecontactsapp.R
+import com.route.routecontactsapp.databinding.ItemContactBinding
 import com.route.routecontactsapp.models.ContactDM
 
 class ContactsAdapter(
@@ -16,9 +16,12 @@ class ContactsAdapter(
         parent: ViewGroup,
         viewType: Int
     ): ContactViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_contact, parent, false)
-        return ContactViewHolder(itemView)
+        val binding = ItemContactBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ContactViewHolder(binding)
     }
 
     override fun onBindViewHolder(
@@ -26,19 +29,9 @@ class ContactsAdapter(
         position: Int
     ) {
         val currentContact = contactsList[position]
-        holder.contactName.text = currentContact.name
-        holder.contactPhone.text = currentContact.phoneNumber
-        holder.contactEmail.text = currentContact.email
+        holder.bindItem(currentContact)
 
-
-        if (!currentContact.photoUri.isNullOrEmpty()) {
-            holder.contactImage.setImageURI(currentContact.photoUri.toUri())
-        } else {
-
-            holder.contactImage.setImageResource(R.drawable.test_image)
-        }
-
-        holder.deleteButton.setOnClickListener {
+        holder.itemBinding.buttonDelete.setOnClickListener {
             onDeleteClick(currentContact, position)
         }
     }
@@ -51,7 +44,6 @@ class ContactsAdapter(
         if (position >= 0 && position < contactsList.size) {
             contactsList.removeAt(position)
             notifyItemRemoved(position)
-            // Notify that the range of items after the removed position has changed
             notifyItemRangeChanged(position, contactsList.size - position)
         }
     }
@@ -61,12 +53,17 @@ class ContactsAdapter(
         notifyItemInserted(contactsList.size - 1)
     }
 
+    class ContactViewHolder(val itemBinding: ItemContactBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemBinding.root) {
+        fun bindItem(contact: ContactDM) {
+            itemBinding.textName.text = contact.name
+            itemBinding.textPhone.text = contact.phoneNumber
+            itemBinding.textEmail.text = contact.email ?: ""
 
-    class ContactViewHolder(itemView: android.view.View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
-        val contactName: android.widget.TextView = itemView.findViewById(R.id.textName)
-        val contactPhone: android.widget.TextView = itemView.findViewById(R.id.textPhone)
-        val contactEmail: android.widget.TextView = itemView.findViewById(R.id.textEmail)
-        val contactImage: ImageView = itemView.findViewById(R.id.imageProfile)
-        val deleteButton: com.google.android.material.button.MaterialButton = itemView.findViewById(R.id.buttonDelete)
+            if (!contact.photoUri.isNullOrEmpty()) {
+                itemBinding.imageProfile.setImageURI(contact.photoUri.toUri())
+            } else {
+                itemBinding.imageProfile.setImageResource(R.drawable.test_image)
+            }
+        }
     }
 }
